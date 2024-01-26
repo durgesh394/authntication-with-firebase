@@ -1,30 +1,3 @@
-// import React from "react";
-// import { Link } from "react-router-dom";
-// import "../../styles/navbar.css";
-// const Navbar = () => {
-//   return (
-//     <div className="wrapper">
-//       <div className="navbar-container">
-//         <div className="logo">Logo</div>
-//         <div className="navbar-list">
-//           <ul>
-//             <li>
-//               <Link to="/">Home</Link>
-//             </li>
-//             <li>
-//               <Link to="/">Login</Link>
-//             </li>
-//             <li>
-//               <Link to="/">Logout</Link>
-//             </li>
-//           </ul>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Navbar;
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -40,6 +13,8 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useFirebaseContext } from "../../app/modules/auth/context/authProviver";
 
 const pages = [
   { name: "Home", url: "/" },
@@ -52,10 +27,14 @@ const settings = ["Profile", "Account", "Dashboard", "Logout"];
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const { user } = useSelector((state) => state.auth);
+  const { handleLogout } = useFirebaseContext();
+  console.log("🚀 ~ Navbar ~ user:", user.email);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -67,9 +46,12 @@ function Navbar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
+  const handleLogoutBtn = () => {
+    handleLogout();
+    setAnchorElUser(null);
+  };
   return (
-    <AppBar position="static">
+    <AppBar position="static" className="sticky top-0 ">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -128,7 +110,8 @@ function Navbar() {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          {/* Logo */}
+          {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
@@ -146,7 +129,7 @@ function Navbar() {
             }}
           >
             LOGO
-          </Typography>
+          </Typography> */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
@@ -181,11 +164,15 @@ function Navbar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem>
+                <Typography textAlign="center">Profile</Typography>
+              </MenuItem>
+              <MenuItem>
+                <Typography textAlign="center">Dashboard</Typography>
+              </MenuItem>
+              <MenuItem onClick={handleLogoutBtn}>
+                <Typography textAlign="center">Logout</Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
@@ -193,4 +180,5 @@ function Navbar() {
     </AppBar>
   );
 }
+
 export default Navbar;
