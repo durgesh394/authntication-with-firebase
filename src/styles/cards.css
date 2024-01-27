@@ -1,0 +1,15 @@
+.carousel-buttons button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.cards-scrollbar-container::-webkit-scrollbar {
+  display: none;
+}
+.overflow-ellipsis {
+  width: 184px;
+  padding: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
