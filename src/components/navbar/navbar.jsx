@@ -51,7 +51,10 @@ function Navbar() {
     setAnchorElUser(null);
   };
   return (
-    <AppBar position="static" className="sticky top-0 ">
+    <AppBar
+      position="static"
+      style={{ zIndex: "1", position: "fixed", top: "0px" }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
