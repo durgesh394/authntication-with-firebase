@@ -4,9 +4,8 @@ import {
   MdOutlineArrowForwardIos,
 } from "react-icons/md";
 import "../../styles/cards.css";
-import { destinations } from "./data";
 
-const Cards = () => {
+const Cards = ({ title, places }) => {
   const itemsPerPage = 6; // Set the number of items to display per page
   const [currentIndex, setCurrentIndex] = useState(0);
   const carouselRef = useRef(null);
@@ -17,7 +16,7 @@ const Cards = () => {
 
   const handleNextClick = () => {
     setCurrentIndex((prevIndex) =>
-      Math.min(prevIndex + itemsPerPage, destinations.length - itemsPerPage)
+      Math.min(prevIndex + itemsPerPage, places.length - itemsPerPage)
     );
   };
 
@@ -39,7 +38,7 @@ const Cards = () => {
         <div className="flex justify-between items-center mb-8 w-[90%]">
           <div>
             <h2 className="text-3xl font-bold text-center text-gray-800">
-              Trending Destinations in India
+              {title}
             </h2>
           </div>
           <div
@@ -58,7 +57,7 @@ const Cards = () => {
             <button
               style={{ fontSize: "23px", cursor: "pointer" }}
               onClick={handleNextClick}
-              disabled={currentIndex === destinations.length - itemsPerPage}
+              disabled={currentIndex === places.length - itemsPerPage}
             >
               <MdOutlineArrowForwardIos />
             </button>
@@ -76,12 +75,12 @@ const Cards = () => {
             ref={carouselRef}
             className="flex cards-scrollbar"
             style={{
-              width: `${destinations.length * (200 + 20)}px`, // Adjust width based on total items
+              width: `${places.length * (200 + 20)}px`,
               gap: "20px",
               transition: "transform 0.5s",
             }}
           >
-            {destinations.map((destination, index) => (
+            {places.map((destination, index) => (
               <div key={index}>
                 <div
                   className="flex flex-col justify-between h-full bg-white rounded shadow"
